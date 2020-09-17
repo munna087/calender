@@ -69,6 +69,7 @@ const CardDesignMonth = ({eachDay,currentMonth,currentYear}) => {
 
                 <ModalForShowingEventOnDate 
                     show = {showEventForDate}
+                    handleOpen={handleShowEventForDateShow}
                     handleClose={handleShowEventForDateClose} 
                     day={eachDay}
                     month={currentMonth}

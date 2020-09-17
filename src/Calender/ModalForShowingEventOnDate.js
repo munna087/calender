@@ -4,7 +4,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import ModalForAddButton from './ModalForAddButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 
-const ModalForShowingEventOnDate = ({show,handleClose,day,month,year}) => {
+const ModalForShowingEventOnDate = ({show,handleOpen,handleClose,day,month,year}) => {
 
     //This three For Add Modal
     const [showAddingEvent, setShowAddingEvent] = useState(false);
@@ -25,11 +25,14 @@ const ModalForShowingEventOnDate = ({show,handleClose,day,month,year}) => {
     }
 
     const handleDelete = (deleteEventDate) => {
-        const updatedEvents = events.filter( event => {
-            return event.date !== deleteEventDate
-        })
-        localStorage.setItem('events',JSON.stringify(updatedEvents))
-        handleClose()
+        let confirmedToDelete = window.confirm('Are you sure?')
+        if(confirmedToDelete){
+            const updatedEvents = events.filter( event => {
+                return event.date !== deleteEventDate
+            })
+            localStorage.setItem('events',JSON.stringify(updatedEvents))
+            handleClose()
+        }
     }
 
     const handlerSingleEvent = (eventDate,eventName,eventDetail) =>{
@@ -41,14 +44,17 @@ const ModalForShowingEventOnDate = ({show,handleClose,day,month,year}) => {
     }
     
     const handlerDeleteSingleEvent = (delDate,delName,delDetail) => {
-        let afterDeleteEvent = []
-        afterDeleteEvent = events.filter(eve => {
-            return ( (eve.date !== delDate) || (eve.name !== delName) )
-        })
-        localStorage.setItem('events', JSON.stringify(afterDeleteEvent))
-        handleClose()
+        let confirmedToDelete = window.confirm('Are you sure?')
+        if(confirmedToDelete){
+            let afterDeleteEvent = []
+            afterDeleteEvent = events.filter(eve => {
+                return ( (eve.date !== delDate) || (eve.name !== delName) )
+            })
+            localStorage.setItem('events', JSON.stringify(afterDeleteEvent))
+            handleClose()
+            // handleOpen()
+        }
     }
-
 
     return (
         <div>
@@ -81,7 +87,7 @@ const ModalForShowingEventOnDate = ({show,handleClose,day,month,year}) => {
                         Close
                     </Button>
                     <Button variant="danger" onClick={ () => handleDelete(clickedDate) }>
-                        Delete
+                        Delete All
                     </Button>
                 </Modal.Footer>
             </Modal>

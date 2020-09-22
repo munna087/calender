@@ -1,10 +1,17 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {Modal,Button,Form} from 'react-bootstrap'
 import EditIcon from '@material-ui/icons/Edit';
 import ModalForAddButton from './ModalForAddButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 
-const ModalForShowingEventOnDate = ({show,handleOpen,handleClose,day,month,year}) => {
+const ModalForShowingEventOnDate = ({show,handleClose,day,month,year}) => {
+
+    const eventsFromLocalStorage = localStorage.getItem('events') ? JSON.parse(localStorage.getItem('events')) : []
+    const [events,setEvents] = useState(eventsFromLocalStorage)
+
+    useEffect( () => {
+        setEvents(eventsFromLocalStorage);
+    },[localStorage.getItem('events')])
 
     //This three For Add Modal
     const [showAddingEvent, setShowAddingEvent] = useState(false);
@@ -16,7 +23,10 @@ const ModalForShowingEventOnDate = ({show,handleOpen,handleClose,day,month,year}
     const [detail,setDetail] = useState('');
 
     const clickedDate = `${year}-${month}-${day}`
-    const events = JSON.parse(localStorage.getItem('events'))
+    
+
+    // const events = JSON.parse(localStorage.getItem('events'))
+    
     let onDayEvent = null
     if(events){
         onDayEvent = events.filter( event => {
@@ -51,8 +61,7 @@ const ModalForShowingEventOnDate = ({show,handleOpen,handleClose,day,month,year}
                 return ( (eve.date !== delDate) || (eve.name !== delName) )
             })
             localStorage.setItem('events', JSON.stringify(afterDeleteEvent))
-            handleClose()
-            // handleOpen()
+            setEvents(afterDeleteEvent)
         }
     }
 
@@ -91,7 +100,7 @@ const ModalForShowingEventOnDate = ({show,handleOpen,handleClose,day,month,year}
                     </Button>
                 </Modal.Footer>
             </Modal>
-            <ModalForAddButton 
+            { showAddingEvent && <ModalForAddButton 
                 show={showAddingEvent} 
                 handleClose={handleAddingEventClose} 
                 day={day}
@@ -100,7 +109,7 @@ const ModalForShowingEventOnDate = ({show,handleOpen,handleClose,day,month,year}
                 editDate = {date}
                 editName = {name}
                 editDetail = {detail}
-            />
+            />}
         </div>
     )
 }

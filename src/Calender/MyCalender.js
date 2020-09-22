@@ -3,6 +3,7 @@ import CardDesignWeek from './CardDesignWeek'
 import CardDesignMonth from './CardDesignMonth'
 import ShowTodayDate from './ShowTodayDate'
 import ShowUpdatedMonth from './ShowUpdatedMonth'
+import ShowTodayWeather from '../Weather/ShowTodayWeather'
 
 
 const MyCalender = () => {
@@ -87,7 +88,13 @@ const MyCalender = () => {
         <div className='container'>
             <div className='row'>
                 <div className='col-md-3'>
-                    <ShowTodayDate date={today.getDate()} month={month[today.getMonth()].name} year={today.getFullYear()}/>
+                    <div className='row'>
+                        <ShowTodayDate date={today.getDate()} month={month[today.getMonth()].name} year={today.getFullYear()}/>
+                    </div>
+                    <div className='row'>
+                        <ShowTodayWeather />
+                    </div>
+
                 </div>
 
                 <div className='col-md-1'>
@@ -118,19 +125,16 @@ const MyCalender = () => {
 
                         {thisMonthFirstDayStart.map((value,index) =>{                           
                             return(
-                                <div style={{visibility: 'hidden'}}>
-                                    <CardDesignMonth 
-                                        key={`${thisMonth.yearId}-${thisMonth.monthId + 1}-${index+1}`} 
-                                    /> 
+                                <div style={{visibility: 'hidden'}} key={`${thisMonth.yearId}-${thisMonth.monthId + 1}-${index+1}`} >
+                                    <CardDesignMonth /> 
                                 </div>                            
                             )                               
                         })}
 
                         {thisMonthDays.map((value,index) =>{                           
                             return(
-                                <div>
+                                <div key={`${thisMonth.yearId}-${thisMonth.monthId + 1}-${index+1}`} >
                                     <CardDesignMonth
-                                        key={`${thisMonth.yearId}-${thisMonth.monthId + 1}-${index+1}`} 
                                         eachDay={index+1} 
                                         currentMonth={thisMonth.monthId + 1} 
                                         currentYear={thisMonth.yearId}

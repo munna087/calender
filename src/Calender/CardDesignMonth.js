@@ -47,8 +47,6 @@ const CardDesignMonth = ({eachDay,currentMonth,currentYear}) => {
         })
     }
 
-
-
     return (
         <>
             <div className={ thisdate ? 'card border-primary bg-info text-white':"card border-success"} style={{ minWidth: '6rem' }} onMouseOver={handleShowEditAddIcon} onMouseLeave={handleHideEditAddIcon}>
@@ -69,7 +67,6 @@ const CardDesignMonth = ({eachDay,currentMonth,currentYear}) => {
 
                 <ModalForShowingEventOnDate 
                     show = {showEventForDate}
-                    handleOpen={handleShowEventForDateShow}
                     handleClose={handleShowEventForDateClose} 
                     day={eachDay}
                     month={currentMonth}
